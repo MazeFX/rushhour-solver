@@ -15,6 +15,7 @@ import os.path
 import unittest
 
 from rushhour_solver.main import RushHour
+from rushhour_solver.game_components import Board
 
 
 class TestRushHour(unittest.TestCase):
@@ -31,6 +32,11 @@ class TestRushHour(unittest.TestCase):
     def test_rushhour_set_valid_filename(self):
         with self.assertRaises(ValueError):
             rushhour = RushHour('not/a/real/path')
+
+    def test_rushhour_get_board_returns_board(self):
+        rushhour = RushHour(self.valid_puzzle)
+        board = rushhour.get_board()
+        self.assertIsInstance(board, Board)
 
 
 if __name__ == '__main__':

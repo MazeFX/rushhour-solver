@@ -40,3 +40,7 @@ class RushHour(object):
 
     def get_filename(self):
         return self.filename
+
+    def get_board(self):
+        parser = RushHourParser(self.filename)
+        return parser.get_board()
