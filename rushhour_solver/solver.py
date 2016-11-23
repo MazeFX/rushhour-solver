@@ -32,7 +32,7 @@ class RushHourSolver(object):
     def get_start_board(self):
         return self.start_board
 
-    def start_solving(self, max_steps=30):
+    def start_solving(self, max_steps=100):
         """
         Finding a solution using the Breadth first method.
         Create a list of all possible moves based on a starting
@@ -44,7 +44,7 @@ class RushHourSolver(object):
         """
         start_board = self.get_start_board()
         if start_board is None:
-            print('something went wrong again..')
+            print('something went wrong again.. no startboard')
         visited = set()
 
         queue = deque()
@@ -59,13 +59,17 @@ class RushHourSolver(object):
             if board is None:
                 print('BOEHOEOHEO')
 
+            #print(board)
+
             if board in visited:
+                print('Been here before..')
                 continue
             else:
                 visited.add(board)
 
             red_car = board.get_red_car()
             if self._is_solved(red_car):
+                print('A solution has been found')
                 solution = new_step
                 return solution
             else:
@@ -75,7 +79,7 @@ class RushHourSolver(object):
 
     def _is_solved(self, red_car):
         x, y = red_car.x, red_car.y
-        return x == 2 and y == 4
+        return x == 4 and y == 2
 
     def _get_moves(self, start_board):
         """Find all possible moves from current state and return an
@@ -89,24 +93,34 @@ class RushHourSolver(object):
                     new_vehicle = v.__class__(v.id, v.x - 1, v.y, v.orientation)
                     new_vehicles = start_board.vehicles.copy()
                     new_vehicles.remove(v)
-                    new_vehicles.append(new_vehicle)
-                    yield Board().set_board_from_vehicles(new_vehicles)
+                    new_vehicles.add(new_vehicle)
+                    new_board = Board()
+                    new_board.set_board_from_vehicles(new_vehicles)
+                    yield new_board
                 if v.x + v.length <= 5 and board[v.y][v.x + v.length] == '.':
-                    new_v = v.__class__(v.id, v.x + 1, v.y, v.orientation)
+                    new_vehicle = v.__class__(v.id, v.x + 1, v.y, v.orientation)
                     new_vehicles = start_board.vehicles.copy()
                     new_vehicles.remove(v)
-                    new_vehicles.append(new_v)
-                    yield Board().set_board_from_vehicles(new_vehicles)
+                    new_vehicles.add(new_vehicle)
+                    new_board = Board()
+                    new_board.set_board_from_vehicles(new_vehicles)
+                    yield new_board
             else:
                 if v.y - 1 >= 0 and board[v.y - 1][v.x] == '.':
-                    new_v = v.__class__(v.id, v.x, v.y - 1, v.orientation)
+                    new_vehicle = v.__class__(v.id, v.x, v.y - 1, v.orientation)
                     new_vehicles = start_board.vehicles.copy()
                     new_vehicles.remove(v)
-                    new_vehicles.append(new_v)
-                    yield Board().set_board_from_vehicles(new_vehicles)
+                    new_vehicles.add(new_vehicle)
+                    new_board = Board()
+                    new_board.set_board_from_vehicles(new_vehicles)
+                    yield new_board
                 if v.y + v.length <= 5 and board[v.y + v.length][v.x] == '.':
-                    new_v = v.__class__(v.id, v.x, v.y + 1, v.orientation)
+                    new_vehicle = v.__class__(v.id, v.x, v.y + 1, v.orientation)
                     new_vehicles = start_board.vehicles.copy()
                     new_vehicles.remove(v)
-                    new_vehicles.append(new_v)
-                    yield Board().set_board_from_vehicles(new_vehicles)
+                    new_vehicles.add(new_vehicle)
+                    new_board = Board()
+                    new_board.set_board_from_vehicles(new_vehicles)
+                    yield new_board
+
+

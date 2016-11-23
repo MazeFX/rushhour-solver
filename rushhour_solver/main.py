@@ -17,6 +17,7 @@ import os.path
 
 from rushhour_solver.parser import RushHourParser
 from rushhour_solver.solver import RushHourSolver
+from rushhour_solver.painter import RushHourPainter
 
 
 class RushHour(object):
@@ -64,3 +65,14 @@ class RushHour(object):
         start_board = self.get_board()
         solution = self._get_solution(start_board)
         return solution
+
+if __name__ == '__main__':
+    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    filename = os.path.join(root_dir, 'puzzles', 'puzzle_default.txt')
+    rushhour = RushHour(filename)
+    start_board = rushhour.get_board()
+    print(start_board)
+    solution = rushhour._get_solution(start_board)
+    print(len(str(solution)))
+    painter = RushHourPainter()
+    painter.print_solution(solution)

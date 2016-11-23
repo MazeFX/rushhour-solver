@@ -31,7 +31,6 @@ class TestRushHourCli(unittest.TestCase):
 
     def test_cli(self):
         result = self.runner.invoke(cli.main)
-
         self.assertFalse(result.exception)
         self.assertEqual(result.exit_code, 0)
         self.assertIn('Trying to find a solution..', result.output.strip())

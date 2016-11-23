@@ -21,7 +21,7 @@ class Board(object):
 
     def __init__(self):
         self.board = None
-        self.vehicles = []
+        self.vehicles = set()
 
     def set_board(self, board):
         self.board = board
@@ -30,7 +30,7 @@ class Board(object):
         return self.board
 
     def set_board_from_vehicles(self, vehicles):
-        self.vehicles = vehicles
+        self.vehicles = set(vehicles)
         board = [['.' for n in range(6)] for n in range(6)]
 
         for vehicle in self.vehicles:
@@ -44,18 +44,40 @@ class Board(object):
         self.board = board
 
     def set_vehicles(self, vehicles):
-        self.vehicles = vehicles
+        self.vehicles = set(vehicles)
 
     def get_vehicles(self):
         return self.vehicles
 
     def get_red_car(self):
         red_car = None
-        print('get red car from vehicles: ', self.vehicles)
         for vehicle in self.vehicles:
             if vehicle.id == 'r':
                 red_car = vehicle
         return red_car
+
+    def __hash__(self):
+        return hash(self.__repr__())
+
+    def __eq__(self, other):
+        return self.board == other.board
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
+    def __repr__(self):
+        s = '-' * 8 + '\n'
+        for line in self.get_board():
+            s += '|{0}|\n'.format(''.join(line))
+        s += '-' * 8 + '\n'
+        return s
+
+    def __str__(self):
+        s_vehicles = [str(x) for x in self.vehicles]
+        s = 'Car list:\n' + ''.join(s_vehicles)
+        b_board = [str(x) for x in self.board]
+        b = 'Board:\n' + '\n'.join(b_board)
+        return s + b
 
 
 class Vehicle(object):
