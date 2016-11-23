@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Package: rushhour_solver
+Module: rushhour_solver
 File: cli.py
 Creator: Nick Geense
 Date: 23-11-2016
@@ -32,13 +32,12 @@ def main(filename, log, test):
     Just give a file path and get a solution.
     When no path is provided the solver falls back on a demo default.
     """
+    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     if log:
         Lumberjack.info('--> Starting application..')
         logging.basicConfig(level=getattr(logging, log.upper()))
     Lumberjack.info('--> Starting application..')
-
-    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     if test:
         print('Starting up tests..')

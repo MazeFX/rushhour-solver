@@ -36,6 +36,8 @@ simply run without arguments:
 
 **Options**
 
+Possible options are:
+
 -l --log   Set logger output level.
 --test     Run all Rush Hour tests.
 

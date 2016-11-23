@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Package: rushhour_solver/tests
+Module: tests
 File: test_cli.py
 Creator: Nick Geense
 Date: 23-11-2016
