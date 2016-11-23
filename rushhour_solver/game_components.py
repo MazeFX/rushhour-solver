@@ -29,11 +29,33 @@ class Board(object):
     def get_board(self):
         return self.board
 
+    def set_board_from_vehicles(self, vehicles):
+        self.vehicles = vehicles
+        board = [['.' for n in range(6)] for n in range(6)]
+
+        for vehicle in self.vehicles:
+            x, y = vehicle.x, vehicle.y
+            if vehicle.orientation == 'H':
+                for i in range(vehicle.length):
+                    board[y][x + i] = vehicle.id
+            else:
+                for i in range(vehicle.length):
+                    board[y + i][x] = vehicle.id
+        self.board = board
+
     def set_vehicles(self, vehicles):
         self.vehicles = vehicles
 
     def get_vehicles(self):
         return self.vehicles
+
+    def get_red_car(self):
+        red_car = None
+        print('get red car from vehicles: ', self.vehicles)
+        for vehicle in self.vehicles:
+            if vehicle.id == 'r':
+                red_car = vehicle
+        return red_car
 
 
 class Vehicle(object):

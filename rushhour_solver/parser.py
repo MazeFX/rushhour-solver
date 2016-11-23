@@ -91,20 +91,20 @@ class RushHourParser(object):
                 if cell not in vehicle_names and cell != '.':
                     id = cell
                     vehicle_names.append(id)
-                    x = board.index(row)
-                    y = row.index(cell)
+                    y = board.index(row)
+                    x = row.index(cell)
                     length = 0
 
-                    if x + 1 < len(board) and board[x + 1][y] == cell:
-                        orientation = 'V'
-                        if x + 2 < len(board) and board[x + 2][y] == cell:
+                    if x + 1 < len(row) and row[x + 1] == cell:
+                        orientation = 'H'
+                        if x + 2 < len(row) and row[x + 2] == cell:
                             length = 3
                         else:
                             length = 2
 
-                    elif y + 1 < len(row) and row[y + 1] == cell:
-                        orientation = 'H'
-                        if y + 2 < len(row) and row[y + 2] == cell:
+                    elif y + 1 < len(board) and board[y + 1][x] == cell:
+                        orientation = 'V'
+                        if y + 2 < len(board) and board[y + 2][x] == cell:
                             length = 3
                         else:
                             length = 2

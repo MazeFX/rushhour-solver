@@ -16,6 +16,7 @@ To supply an uniform contruct for interfacing.
 import os.path
 
 from rushhour_solver.parser import RushHourParser
+from rushhour_solver.solver import RushHourSolver
 
 
 class RushHour(object):
@@ -29,8 +30,8 @@ class RushHour(object):
 
     def __init__(self, filename, **kwargs):
         self.filename = None
+        self.solution = None
         self.set_filename(filename)
-        self._start_solving()
 
     def set_filename(self, filename):
         """Filename should be a path"""
@@ -48,5 +49,16 @@ class RushHour(object):
         parser = RushHourParser(self.filename)
         return parser.get_board()
 
+    def get_solution(self):
+        self.solution = self._start_solving()
+        return self.solution
+
+    def _get_solution(self, start_board):
+        solver = RushHourSolver(start_board)
+        solution = solver.start_solving()
+        return solution
+
     def _start_solving(self):
         start_board = self.get_board()
+        solution = self._get_solution(start_board)
+        return solution
