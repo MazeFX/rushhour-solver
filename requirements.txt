@@ -1,0 +1,8 @@
+# Current program version 0.1.0
+# Written with Python 3.5.2
+
+# Requirement for cli script
+click==6.6
+
+# Fancy Print
+colorama==0.3.7
