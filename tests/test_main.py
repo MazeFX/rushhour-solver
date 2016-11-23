@@ -28,6 +28,10 @@ class TestRushHour(unittest.TestCase):
         rushhour = RushHour(self.valid_puzzle)
         self.assertEqual(rushhour.filename, self.valid_puzzle)
 
+    def test_rushhour_set_valid_filename(self):
+        with self.assertRaises(ValueError):
+            rushhour = RushHour('not/a/real/path')
+
 
 if __name__ == '__main__':
     unittest.main()
