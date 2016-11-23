@@ -13,9 +13,11 @@ Unit Tests for Main Rush Hour Program.
 
 import os.path
 import unittest
+from unittest.mock import patch, MagicMock
 
 from rushhour_solver.main import RushHour
 from rushhour_solver.game_components import Board
+from rushhour_solver.parser import RushHourParser
 
 
 class TestRushHour(unittest.TestCase):
@@ -34,9 +36,10 @@ class TestRushHour(unittest.TestCase):
             rushhour = RushHour('not/a/real/path')
 
     def test_rushhour_get_board_returns_board(self):
-        rushhour = RushHour(self.valid_puzzle)
-        board = rushhour.get_board()
-        self.assertIsInstance(board, Board)
+        with patch.object(RushHourParser, 'get_board', return_value=Board()) as mock_method:
+            rushhour = RushHour(self.valid_puzzle)
+            board = rushhour.get_board()
+            self.assertIsInstance(board, Board)
 
 
 if __name__ == '__main__':

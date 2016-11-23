@@ -2,33 +2,26 @@
 
 """
 Module: rushhour_solver
-File: main.py
+File: parser.py
 Creator: Nick Geense
 Date: 23-11-2016
 
-Main controller for rushhour-solver components.
+Rush Hour file parser for analysing board text representations.
 
-To supply an uniform contruct for interfacing.
+Rush Hour Parser should receive a valid filename
+and after all checks have passed return a Board object.
 
 """
 
 
 import os.path
 
-from rushhour_solver.parser import RushHourParser
 
+class RushHourParser(object):
 
-class RushHour(object):
-    """
-    Main Rush Hour object.
-
-    Needs a filename as input along with possible kwargs.
-
-
-    """
-
-    def __init__(self, filename, **kwargs):
+    def __init__(self, filename):
         self.filename = None
+        self.board = None
         self.set_filename(filename)
 
     def set_filename(self, filename):
@@ -44,5 +37,8 @@ class RushHour(object):
         return self.filename
 
     def get_board(self):
-        parser = RushHourParser(self.filename)
-        return parser.get_board()
+        return self.board
+
+
+
+
