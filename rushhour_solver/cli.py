@@ -17,6 +17,9 @@ import os.path
 import click
 import logging
 
+from rushhour_solver.main import RushHour
+from rushhour_solver.painter import RushHourPainter
+
 
 Lumberjack = logging.getLogger(__name__)
 
@@ -45,4 +48,14 @@ def main(filename, log, test):
         subprocess.run(['python', '-m', 'unittest', 'discover', '-s', testdir])
         return
 
-    print('Here you call the program.')
+    print('Trying to find a solution..')
+    if filename is None:
+        filename = os.path.join(root_dir, 'puzzles', 'puzzle_default.txt')
+
+    print('filename= ', filename)
+    rushhour = RushHour(filename)
+
+    solution = rushhour.get_solution()
+    painter = RushHourPainter()
+
+    painter.print_solution(solution)

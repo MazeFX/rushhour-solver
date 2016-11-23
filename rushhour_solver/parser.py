@@ -48,7 +48,9 @@ class RushHourParser(object):
         else:
             Lumberjack.warning('Warning, could not find any vehicles on the board.')
 
-        return board_object
+        if board_object is None:
+            print('Board_object is None, this is getting rediculous..')
+        self.board = board_object
 
     def set_filename(self, filename):
         """Filename should be a path"""
@@ -122,4 +124,6 @@ class RushHourParser(object):
         return vehicles
 
     def get_board(self):
+        if self.board is None:
+            print('Parsed board is None..')
         return self.board

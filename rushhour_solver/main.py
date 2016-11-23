@@ -47,6 +47,8 @@ class RushHour(object):
 
     def get_board(self):
         parser = RushHourParser(self.filename)
+        parser.set_filename(self.filename)
+        parser.start_parser()
         return parser.get_board()
 
     def get_solution(self):

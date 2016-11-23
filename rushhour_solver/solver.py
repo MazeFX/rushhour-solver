@@ -43,6 +43,8 @@ class RushHourSolver(object):
         Will return a solution in the form of a list of steps.
         """
         start_board = self.get_start_board()
+        if start_board is None:
+            print('something went wrong again..')
         visited = set()
 
         queue = deque()
@@ -53,6 +55,9 @@ class RushHourSolver(object):
 
             if len(new_step) >= max_steps:
                 break
+
+            if board is None:
+                print('BOEHOEOHEO')
 
             if board in visited:
                 continue
