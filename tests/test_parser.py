@@ -14,7 +14,7 @@ import os.path
 import unittest
 
 from rushhour_solver.parser import RushHourParser
-from rushhour_solver.game_components import Board
+from rushhour_solver.game_components import Car
 
 
 class TestRushHourParser(unittest.TestCase):
@@ -25,9 +25,17 @@ class TestRushHourParser(unittest.TestCase):
         self.invalid_puzzle = os.path.join(root_dir, 'tests', 'puzzle_invalid.txt')
 
     def test_rushhour_parser_init(self):
-        rushhour = RushHourParser(self.valid_puzzle)
-        self.assertEqual(rushhour.filename, self.valid_puzzle)
+        parser = RushHourParser(self.valid_puzzle)
+        self.assertEqual(parser.filename, self.valid_puzzle)
 
     def test_rushhour_set_valid_filename(self):
         with self.assertRaises(ValueError):
-            rushhour = RushHourParser('not/a/real/path')
+            parser = RushHourParser('not/a/real/path')
+
+    def test_parser_finds_vehicles(self):
+        parser = RushHourParser(self.valid_puzzle)
+        test_board = [['.', '.', '.', '.', 'A', 'A']]
+        vehicles = parser._find_vehicles(test_board)
+        self.assertIsInstance(vehicles[0], Car)
+        self.assertEqual(vehicles[0].id, 'A')
+

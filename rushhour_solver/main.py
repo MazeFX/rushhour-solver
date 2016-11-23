@@ -30,6 +30,7 @@ class RushHour(object):
     def __init__(self, filename, **kwargs):
         self.filename = None
         self.set_filename(filename)
+        self._start_solving()
 
     def set_filename(self, filename):
         """Filename should be a path"""
@@ -46,3 +47,6 @@ class RushHour(object):
     def get_board(self):
         parser = RushHourParser(self.filename)
         return parser.get_board()
+
+    def _start_solving(self):
+        start_board = self.get_board()

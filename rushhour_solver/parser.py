@@ -31,6 +31,7 @@ class RushHourParser(object):
         self.start_parser()
 
     def start_parser(self):
+        board_object = None
         file_content = self._read_file(self.filename)
         content_dimensions_valid = self._check_dimensions(file_content)
 
@@ -40,7 +41,14 @@ class RushHourParser(object):
             raise ValueError('File Content not valid: Dimensions do not match 6x6 tiles.')
 
         vehicles = self._find_vehicles(board)
-        print(vehicles)
+        if len(vehicles) != 0:
+            board_object = Board()
+            board_object.set_board(board)
+            board_object.set_vehicles(vehicles)
+        else:
+            Lumberjack.warning('Warning, could not find any vehicles on the board.')
+
+        return board_object
 
     def set_filename(self, filename):
         """Filename should be a path"""
@@ -83,15 +91,12 @@ class RushHourParser(object):
                 if cell not in vehicle_names and cell != '.':
                     id = cell
                     vehicle_names.append(id)
-                    print('found car with id: ', id)
                     x = board.index(row)
                     y = row.index(cell)
-                    print('coordinates are: ', x, ', ', y)
                     length = 0
 
                     if x + 1 < len(board) and board[x + 1][y] == cell:
                         orientation = 'V'
-                        print('found orientation V')
                         if x + 2 < len(board) and board[x + 2][y] == cell:
                             length = 3
                         else:
@@ -99,7 +104,6 @@ class RushHourParser(object):
 
                     elif y + 1 < len(row) and row[y + 1] == cell:
                         orientation = 'H'
-                        print('found orientation H')
                         if y + 2 < len(row) and row[y + 2] == cell:
                             length = 3
                         else:

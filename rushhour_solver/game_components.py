@@ -18,7 +18,22 @@ Module for game component classes.
 
 
 class Board(object):
-    pass
+
+    def __init__(self):
+        self.board = None
+        self.vehicles = []
+
+    def set_board(self, board):
+        self.board = board
+
+    def get_board(self):
+        return self.board
+
+    def set_vehicles(self, vehicles):
+        self.vehicles = vehicles
+
+    def get_vehicles(self):
+        return self.vehicles
 
 
 class Vehicle(object):
