@@ -22,16 +22,59 @@ class Board(object):
 
 
 class Vehicle(object):
-    pass
+    """Vehicle base class"""
+
+    def __init__(self, id, x, y, orientation):
+        self.id = id
+        self.x = x
+        self.y = y
+        self.orientation = orientation
+        self.color = None
 
 
 class Car(Vehicle):
-    pass
+
+    def __init__(self, *args):
+        super(Car, self).__init__(*args)
+        self.length = 2
+
+    def __repr__(self):
+        s = '<Car object: id={id}, x={x}, y={y}, orientation={orientation}>\n'.format(
+            id=self.id,
+            x=self.x,
+            y=self.y,
+            orientation=self.orientation
+        )
+        return s
 
 
 class Truck(Vehicle):
-    pass
+
+    def __init__(self, *args):
+        super(Truck, self).__init__(*args)
+        self.length = 3
+
+    def __repr__(self):
+        s = '<Truck object: id={id}, x={x}, y={y}, orientation={orientation}>\n'.format(
+            id=self.id,
+            x=self.x,
+            y=self.y,
+            orientation=self.orientation
+        )
+        return s
 
 
 class RedCar(Vehicle):
-    pass
+
+    def __init__(self, *args):
+        super(RedCar, self).__init__(*args)
+        self.length = 2
+
+    def __repr__(self):
+        s = '<RedCar object: id={id}, x={x}, y={y}, orientation={orientation}>\n'.format(
+            id=self.id,
+            x=self.x,
+            y=self.y,
+            orientation=self.orientation
+        )
+        return s
