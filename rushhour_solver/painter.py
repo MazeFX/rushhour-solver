@@ -45,11 +45,12 @@ class RushHourPainter(object):
             return ''
 
     def print_solution(self, solution):
-        solution_string = self._get_solution(solution)
+        solution_string = self._get_solution_string(solution)
+        print('Found solution:')
         for i in range(len(solution_string)):
-            print('Step {i}: {step}'.format(i=i, step=solution_string[i]))
+            print('Step {i}: {step}'.format(i=i + 1, step=solution_string[i]))
 
-    def _get_solution(self, solution):
+    def _get_solution_string(self, solution):
         """Generate list of steps from a solution path."""
         steps = []
         for i in range(len(solution) - 1):
@@ -66,11 +67,11 @@ class RushHourPainter(object):
                 steps.append('{0} Up'.format(v1.id))
         return steps
 
-    def print_boards(self, boards):
+    def get_board_strings(self, boards):
         board_strings = []
         for board in boards:
             for line in board:
                 string = ''.join(line)
-                boardstrings[board.index(line)] += string
+                board_strings[board.index(line)] += string
 
 

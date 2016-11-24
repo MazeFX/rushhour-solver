@@ -56,20 +56,13 @@ class RushHourSolver(object):
             if len(new_step) >= max_steps:
                 break
 
-            if board is None:
-                print('BOEHOEOHEO')
-
-            #print(board)
-
             if board in visited:
-                print('Been here before..')
                 continue
             else:
                 visited.add(board)
 
             red_car = board.get_red_car()
             if self._is_solved(red_car):
-                print('A solution has been found')
                 solution = new_step
                 return solution
             else:
