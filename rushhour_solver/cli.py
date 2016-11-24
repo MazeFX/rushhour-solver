@@ -26,9 +26,11 @@ Lumberjack = logging.getLogger(__name__)
 
 @click.command()
 @click.option('--log', '-l', help='Set the logger level.')
+@click.option('--output', '-o', default='default', help='Set the output setting for representation.')
+@click.option('--color', '-c', is_flag=True, help='Turn on color mode for the boards.')
 @click.option('--test', is_flag=True, help='Run tests for Rush Hour Solver.')
 @click.argument('filename', type=click.Path(exists=True), required=False)
-def main(filename, log, test):
+def main(filename, log, output, color, test):
     """
     Command Line Tool for parsing and solving Rush Hour boards.
 
@@ -48,6 +50,25 @@ def main(filename, log, test):
         subprocess.run(['python', '-m', 'unittest', 'discover', '-s', testdir])
         return
 
+    if output == 'boards':
+        Lumberjack.info('--> Visualisation for solution: only boards.')
+
+    elif output == 'boards+moves':
+        Lumberjack.info('--> Visualisation for solution: Boards with solution moves.')
+
+    elif output != '':
+        Lumberjack.info('--> Invalid argument for visualisation, switching to default.')
+        output = 'default'
+
+    elif output == 'default':
+        Lumberjack.info('--> Visualisation for solution: Default, only solution moves.')
+
+    if color:
+        color_mode = True
+        Lumberjack.info('--> Color is selected, printing boards in fancy colors.')
+    else:
+        color_mode = False
+
     print('Trying to find a solution..')
     if filename is None:
         filename = os.path.join(root_dir, 'puzzles', 'puzzle_default.txt')
@@ -56,6 +77,6 @@ def main(filename, log, test):
     rushhour = RushHour(filename)
 
     solution = rushhour.get_solution()
-    painter = RushHourPainter()
+    painter = RushHourPainter(output, color_mode)
 
     painter.print_solution(solution)
