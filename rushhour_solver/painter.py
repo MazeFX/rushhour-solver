@@ -60,18 +60,21 @@ class RushHourPainter(object):
             i += 1
         return color_dict
 
-    def _return_print_color(self, car_id, fore):
+    def _print_color_wrapper(self, text, car_color, fore):
         if self.color_mode:
-            color_index = self.car_colors[car_id]
+            color_index = self.car_colors[car_color]
             if color_index <= len(self.back_color_list) - 1:
                 if fore == 1:
-                    return self.fore_color_list[color_index]
-                return self.back_color_list[color_index]
+                    s = self.fore_color_list[color_index] + text + Style.RESET_ALL
+                    return s
+                else:
+                    s = self.back_color_list[color_index] + text + Style.RESET_ALL
+                    return s
             else:
                 Lumberjack.warning('Given color_index is invalid. Not painting color')
                 return ''
         else:
-            return ''
+            return text
 
     def print_solution(self, solution):
         output_mode = self.get_output_mode()
@@ -87,7 +90,7 @@ class RushHourPainter(object):
             for i in range(len(board_rows)):
                 row = board_rows[i]
                 for line in row:
-                    print('{}'.format(line))
+                    print('{0}'.format(line))
                 print('')
         else:
 
@@ -98,9 +101,9 @@ class RushHourPainter(object):
                 for i in range(len(board_rows)):
                     row = board_rows[i]
                     for line in row:
-                        print('{}'.format(line))
+                        print('{0}'.format(line))
                     print('')
-                    print('{}'.format(solution_rows[i]))
+                    print('{0}'.format(solution_rows[i]))
                     print('')
 
             elif output_mode != '':
@@ -113,6 +116,8 @@ class RushHourPainter(object):
                 for i in range(len(solution_string)):
                     print('Step {i}: {step}'.format(i=i + 1, step=solution_string[i]))
 
+        print('Board solved in {0} steps.'.format(len(solution)))
+
     def _get_solution_string(self, solution, horizontal):
         """Generate list of steps from a solution path."""
         steps = []
@@ -121,23 +126,24 @@ class RushHourPainter(object):
             v1 = list(r1.vehicles - r2.vehicles)[0]
             v2 = list(r2.vehicles - r1.vehicles)[0]
             if v1.x < v2.x:
-                steps.append(self._return_print_color(v1.id, 1) +
-                             '{0}'.format(v1.id) + Style.RESET_ALL + ' Right')
+                steps.append(self._print_color_wrapper('{0}'.format(v1.id), v1.id, 1) + ' Right')
             elif v1.x > v2.x:
-                steps.append(self._return_print_color(v1.id, 1) +
-                             '{0}'.format(v1.id) + Style.RESET_ALL + ' Left')
+                steps.append(self._print_color_wrapper('{0}'.format(v1.id), v1.id, 1) + ' Left')
             elif v1.y < v2.y:
-                steps.append(self._return_print_color(v1.id, 1) +
-                             '{0}'.format(v1.id) + Style.RESET_ALL + ' Down')
+                steps.append(self._print_color_wrapper('{0}'.format(v1.id), v1.id, 1) + ' Down')
             elif v1.y > v2.y:
-                steps.append(self._return_print_color(v1.id, 1) +
-                             '{0}'.format(v1.id) + Style.RESET_ALL + ' Up')
+                steps.append(self._print_color_wrapper('{0}'.format(v1.id), v1.id, 1) + ' Up')
 
         if horizontal:
             solution_rows = []
             line_string = '  Start  '
             for i in range(len(steps)):
-                string = '{:^18}'.format(steps[i])
+                if self.color_mode:
+                    string = '{:^18}'.format(steps[i])
+                else:
+                    string = '{:^9}'.format(steps[i])
+                    print('step = ', len(steps[i]))
+                    print('length = ', len(string))
                 line_string += string
                 if (i + 2) % 8 == 0:
                     solution_rows.append(line_string)
@@ -157,7 +163,16 @@ class RushHourPainter(object):
             board = boards[i]
             line_string += ' +------+'
             for line in board:
-                string = ' |' + ''.join(line) + '|'
+                if self.color_mode:
+                    cells = []
+                    for cell in line:
+                        if cell in self.car_colors:
+                            cells.append(self._print_color_wrapper(cell, cell, 0))
+                        else:
+                            cells.append(cell)
+                else:
+                    cells = line
+                string = ' |' + ''.join(cells) + '|'
                 if board.index(line) + 1 > len(board_strings):
                     board_strings.append('')
                 board_strings[board.index(line)] += string
